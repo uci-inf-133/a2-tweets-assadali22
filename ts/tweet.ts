@@ -12,17 +12,17 @@ class Tweet {
         //TODO: identify whether the source is a live event, an achievement, a completed event, or miscellaneous.
         
         //lowercase the text then check for key phrases with .includes()
-        if ((this.text.toLowerCase()).includes("completed")) {return "completed_event";}
+        if ((this.text.toLowerCase()).includes("completed") || 
+            (this.text.toLowerCase()).includes("just posted")) {return "completed_event";}
+
         if ((this.text.toLowerCase()).includes("watch my") || 
             (this.text.toLowerCase()).includes("#rklive")) {return "live_event";}
 
-        if ((this.text.toLowerCase()).includes("posted")) {return "miscellaneous";}
         if ((this.text.toLowerCase()).includes("achieved")) {return "achievement";}
-            
 
+        return "miscellaneous";
         //spans to update: completedEvents, liveEvents, achievements, misc, miscellaneous
         //and their corresponding percentages...
-        return "unknown";
     }
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
@@ -47,6 +47,9 @@ class Tweet {
             return "";
         }
         //TODO: parse the written text from the tweet
+        var tempText = "";
+        tempText = this.text.replace("#Runkeeper", "");
+        //filter out url?
         return "";
     }
 
@@ -55,6 +58,9 @@ class Tweet {
             return "unknown";
         }
         //TODO: parse the activity type from the text of the tweet
+
+        //depends on call to writtenText and return human text
+
         return "";
     }
 

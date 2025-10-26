@@ -9,11 +9,15 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 	
+	//the rest of this function should edit just index html file
+
+	//find earliest and latest date????
+
 	//This line modifies the DOM, searching for the tag with the numberTweets ID and updating the text.
 	//It works correctly, your task is to update the text of the other tags in the HTML file!
 	document.getElementById('numberTweets').innerText = tweet_array.length;	//this puts the number of tweets in line 47 of index html file i think
 
-	//spans to update: completedEvents, liveEvents, achievements, misc, miscellaneous
+	//spans to update: completedEvents, liveEvents, achievements, miscellaneous
     //and their corresponding percentages...
 }
 
