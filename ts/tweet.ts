@@ -10,12 +10,35 @@ class Tweet {
 	//returns either 'live_event', 'achievement', 'completed_event', or 'miscellaneous'
     get source():string {
         //TODO: identify whether the source is a live event, an achievement, a completed event, or miscellaneous.
+        
+        //lowercase the text then check for key phrases with .includes()
+        if ((this.text.toLowerCase()).includes("completed")) {return "completed_event";}
+        if ((this.text.toLowerCase()).includes("watch my") || 
+            (this.text.toLowerCase()).includes("#rklive")) {return "live_event";}
+
+        if ((this.text.toLowerCase()).includes("posted")) {return "miscellaneous";}
+        if ((this.text.toLowerCase()).includes("achieved")) {return "achievement";}
+            
+
+        //spans to update: completedEvents, liveEvents, achievements, misc, miscellaneous
+        //and their corresponding percentages...
         return "unknown";
     }
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
         //TODO: identify whether the tweet is written
+        //filter out "Check it out!", those indicate auto generated tweets
+
+        if (!this.text.includes("Check it out!"))
+            return true;
+
+        if (!this.text.includes("TomTom MySports Watch")) //key phrase that indicates automated text
+            return true;
+
+        if (!this.text.includes("Watch my")) //filter out live events and automated text "Watch my [bike/run/walk/etc]"
+            return true;
+
         return false;
     }
 

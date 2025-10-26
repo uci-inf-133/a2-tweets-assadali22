@@ -8,11 +8,11 @@
 - */3 Adding a text earch interface
 
 2. How long, in hours, did it take you to complete this assignment?
-
+Started 10-24-2025 at 9:30pm. 9:30pm-11:15pm
 
 
 3. What online resources did you consult when completing this assignment? (list sites like StackOverflow or specific URLs for tutorials; describe queries to Generative AI or use of AI-based code completion)
-
+W3Schools on string manipulation in JavaScript/Typescript
 
 
 4. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
