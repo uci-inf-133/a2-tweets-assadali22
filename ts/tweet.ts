@@ -30,7 +30,7 @@ class Tweet {
         //TODO: identify whether the tweet is written
         //filter out "Check it out!", those indicate auto generated tweets
 
-        if (!this.text.includes("Check it out!"))
+        if (!this.text.includes("Check it out!")) //key phrase that indicates automated text
             return true;
 
         if (!this.text.includes("TomTom MySports Watch")) //key phrase that indicates automated text
@@ -49,8 +49,15 @@ class Tweet {
         //TODO: parse the written text from the tweet
         var tempText = "";
         tempText = this.text.replace("#Runkeeper", "");
-        //filter out url?
-        return "";
+        
+        //filter out url with regular expression
+        tempText = tempText.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+        
+        //starts with, split???
+        //alternative backup: most text ends with the link and hashtag. find where https starts
+        //and do substring to exclude out that part
+
+        return tempText;
     }
 
     get activityType():string {
@@ -60,8 +67,34 @@ class Tweet {
         //TODO: parse the activity type from the text of the tweet
 
         //depends on call to writtenText and return human text
+        var humanText = this.writtenText;
 
-        return "";
+        if (humanText.includes("walk")) 
+            return "walk";
+
+        if (humanText.includes("run")) 
+            return "run";
+
+        if (humanText.includes("ski")) 
+            return "ski";
+
+        if (humanText.includes("bike")) 
+            return "bike";
+
+        if (humanText.includes("activity")) 
+            return "activity";
+
+        if (humanText.includes("swim")) 
+            return "swim";
+
+        if (humanText.includes("workout")) 
+            return "workout";
+
+        if (humanText.includes("mediation")) 
+            return "mediation";
+
+
+        return "unknown";
     }
 
     get distance():number {
