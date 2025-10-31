@@ -21,25 +21,22 @@ class Tweet {
         if ((this.text.toLowerCase()).includes("achieved")) {return "achievement";}
 
         return "miscellaneous";
-        //spans to update: completedEvents, liveEvents, achievements, misc, miscellaneous
-        //and their corresponding percentages...
+        
     }
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
         //TODO: identify whether the tweet is written
-        //filter out "Check it out!", those indicate auto generated tweets
+        //filter out "Check it out!", TomTom MySports Watch, 
+        //"Watch my" (live event walk, bike..)
+        //those indicate auto generated tweets
 
-        if (!this.text.includes("Check it out!")) //key phrase that indicates automated text
-            return true;
-
-        if (!this.text.includes("TomTom MySports Watch")) //key phrase that indicates automated text
-            return true;
-
-        if (!this.text.includes("Watch my")) //filter out live events and automated text "Watch my [bike/run/walk/etc]"
-            return true;
-
-        return false;
+        //if text contains any of these phrases, return false
+        if (this.text.includes("Check it out!") ||
+            this.text.includes("TomTom MySports Watch") ||
+            this.text.includes("Watch my")) {return false;}
+           
+        return true;
     }
 
     get writtenText():string {
@@ -101,7 +98,7 @@ class Tweet {
         if(this.source != 'completed_event') {
             return 0;
         }
-        //TODO: prase the distance from the text of the tweet
+        //TODO: parse the distance from the text of the tweet
         return 0;
     }
 

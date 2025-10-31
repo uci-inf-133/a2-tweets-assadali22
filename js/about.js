@@ -44,24 +44,25 @@ function parseTweets(runkeeper_tweets) {
 		if (tweet_array[i].time.getDay() > latestDate.getDay())
 			latestDate = tweet_array[i].time;
 	}
-	//not hitting sept 30 as latest for some reason...
+	//not hitting sept 30 as latest due to time zone difference, its ok according to TA
 
 	//spans to update: completedEvents, liveEvents, achievements, miscellaneous
-    //and their corresponding percentages
+    //and their corresponding percentages. Initialize counters for each type
 	var completedActivities = 0;	
 	var liveActivites = 0;
 	var achievementActivities = 0;
 	var miscActivities = 0;
-	var writtenCompleted = 0;
+	var writtenCompleted = 0; //for completed activities that contain human text
 
 	for (var j = 0; j < tweet_array.length; j++)
 	{
 		if (tweet_array[j].source == "completed_event")
 		{
-			if (tweet_array[j].written)
+			completedActivities++; //count regardless of written or automated
+
+			if (tweet_array[j].written) 
 				writtenCompleted++;
 
-			completedActivities++;
 		}
 		else if (tweet_array[j].source == "live_event")
 		{
@@ -77,8 +78,6 @@ function parseTweets(runkeeper_tweets) {
 		}
 
 	}
-
-	console.log(completedActivities);
 	
 	//This line modifies the DOM, searching for the tag with the numberTweets ID and updating the text.
 	//It works correctly, your task is to update the text of the other tags in the HTML file!
@@ -87,23 +86,26 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById('firstDate').innerText = earliestDate;
 	document.getElementById('lastDate').innerText = latestDate;
 
-	//none of the below updates even work, text is still ??? somehow
-
 	//rest of these elements are CLASS NAMES, use getElementsByClassName
 	//very different method name, with elements (not element) and className
-	document.getElementsByClassName('completedEvents').innerText = completedActivities;
-	document.getElementsByClassName('liveEvents').innerText = liveActivites;
-	document.getElementsByClassName('achievements').innerText = achievementActivities;
-	document.getElementsByClassName('miscellaneous').innerText = miscActivities;
-	document.getElementsByClassName('written').innerText = writtenCompleted;
+	//it returns an ARRAY, need to access the elements to edit with []
+	document.getElementsByClassName('completedEvents')[0].innerText = completedActivities;
+	document.getElementsByClassName('completedEvents')[1].innerText = completedActivities; //edit the 2nd span appearance in index html line 52
+
+	document.getElementsByClassName('liveEvents')[0].innerText = liveActivites;
+	document.getElementsByClassName('achievements')[0].innerText = achievementActivities;
+	document.getElementsByClassName('miscellaneous')[0].innerText = miscActivities;
+	document.getElementsByClassName('written')[0].innerText = writtenCompleted;
 
 	//Percentages
-	document.getElementsByClassName('completedEventsPct').innerText = math.format(completedActivities / tweet_array.length, 2);
-	document.getElementsByClassName('liveEventsPct').innerText = math.format(liveActivites / tweet_array.length, 2);
-	document.getElementsByClassName('achievementsPct').innerText = math.format(achievementActivities / tweet_array.length, 2);
-	document.getElementsByClassName('miscellaneousPct').innerText = math.format(miscActivities / tweet_array.length, 2);
-	document.getElementsByClassName('writtenPct').innerText = math.format(writtenCompleted / completedActivities, 2);
+	document.getElementsByClassName('completedEventsPct')[0].innerText = math.format(100 * completedActivities / tweet_array.length, 2) + "%";
+	document.getElementsByClassName('liveEventsPct')[0].innerText = math.format(100 * liveActivites / tweet_array.length, 2) + "%";
+	document.getElementsByClassName('achievementsPct')[0].innerText = math.format(100 * achievementActivities / tweet_array.length, 2) + "%";
+	document.getElementsByClassName('miscellaneousPct')[0].innerText = math.format(100 * miscActivities / tweet_array.length, 2) + "%";
+	document.getElementsByClassName('writtenPct')[0].innerText = math.format(100 * writtenCompleted / completedActivities, 2) + "%";
 
+	//since most of these tags appear once, we just add element access [0]
+	//to actually get the span to edit
 }
 
 //Wait for the DOM to load
