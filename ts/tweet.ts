@@ -90,6 +90,9 @@ class Tweet {
         if (humanText.includes("mediation")) 
             return "mediation";
 
+        if (humanText.includes("Freestyle") || humanText.includes("freestyle"))
+            return "freestyle";
+
 
         return "unknown";
     }
@@ -99,6 +102,25 @@ class Tweet {
             return 0;
         }
         //TODO: parse the distance from the text of the tweet
+        //use a regular expression, match any decimal number [..].XX 2 decimal places
+        var distance = 0.00;
+
+        if (this.text.includes("km"))
+        {
+            distance = this.text.search(/^\d+\.?\d*$/);
+            //^ is start of line, $ is end of line
+            // \d* matches 0 or more digits, \d matches 1 or more digits
+            // \.? match the dot
+
+            //convert to miles
+            return distance / 1.609; // miles / 1.609
+        }
+        else if (this.text.includes("mi"))
+        {
+            distance = this.text.search(/^\d+\.?\d*$/);
+            return distance;
+        }
+
         return 0;
     }
 
