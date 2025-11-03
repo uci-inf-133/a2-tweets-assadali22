@@ -87,8 +87,8 @@ class Tweet {
         if (humanText.includes("workout")) 
             return "workout";
 
-        if (humanText.includes("mediation")) 
-            return "mediation";
+        if (humanText.includes("meditation")) 
+            return "meditation";
 
         if (humanText.includes("Freestyle") || humanText.includes("freestyle"))
             return "freestyle";
@@ -117,7 +117,7 @@ class Tweet {
         }
         else if (this.text.includes("mi"))
         {
-            distance = this.text.search(/^\d+\.?\d*$/);
+            distance = this.text.search(/^\d+\.?\d*$/); //REPLACE WITH MATCH FUNCTION
             return distance;
         }
 
@@ -126,6 +126,14 @@ class Tweet {
 
     getHTMLTableRow(rowNumber:number):string {
         //TODO: return a table row which summarizes the tweet with a clickable link to the RunKeeper activity
-        return "<tr></tr>";
+        //search function doesnt get URL, it only get the INDEX
+    
+        //use the match function
+        var tweetLink = this.text.match(/(?:https?|ftp):\/\/[\n\S]+/g); 
+
+        //use replace to surround link with hyperlink
+        var textWithHyperlink = this.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, "<a href = " + tweetLink + ">" + tweetLink + "</a>");
+
+        return ("<tr>" + rowNumber + "    " + this.activityType + "    " + textWithHyperlink + "</tr>");
     }
 }

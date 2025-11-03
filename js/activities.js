@@ -10,14 +10,67 @@ function parseTweets(runkeeper_tweets) {
 	});
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
+	//var namesOfActivities = ["walk", "run", "ski", "bike", "activity", "swim", "workout", "meditation", "freestyle"]
+	var activities = []; //data
+	//var distances = []; //parallel array to get data?
+	//distances.push(tweet_array[i].distance);
+
+	//frequencies
+	var walk, run, ski, bike, activity, swim, workout, meditation, freestyle = 0;
+	
+	for (var i = 0; i < tweet_array.length; i++)
+	{
+		switch (tweet_array[i].activityType)
+		{
+			case "walk": {walk++; break;} 
+			case "run": {run++; break;}
+			case "ski": {ski++; break;}
+
+			case "bike": {bike++; break;}
+			case "activity": {activity++; break;}
+			case "swim": {swim++; break;}
+
+			case "workout": {workout++; break;}
+			case "meditation": {meditation++; break;}
+			case "freestyle": {freestyle++; break;}
+			default: {break;}
+		}
+	}
+
+	activities.push({"activity" : "walk", "freq" : walk});
+	activities.push({"activity" : "run", "freq" : run});
+	activities.push({"activity" : "ski", "freq" : ski});
+	activities.push({"activity" : "bike", "freq" : bike});
+	activities.push({"activity" : "activity", "freq" : activity});
+	activities.push({"activity" : "swim", "freq" : swim});
+	activities.push({"activity" : "workout", "freq" : workout});
+	activities.push({"activity" : "meditation", "freq" : meditation});
+	activities.push({"activity" : "freestyle", "freq" : freestyle});
+	
 
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
 	  "data": {
-	    "values": tweet_array
-	  }
+	    "values": activities
+	  },
 	  //TODO: Add mark and encoding
+	  "mark": "bar",
+	  "encoding":
+	  {
+		x:
+		{
+			"field": "activity",
+			"type": "nominal",
+			"axis": {"labelAngle": 0}
+		},
+
+		y:
+		{
+			"field": "freq",
+			"type": "quantitative"
+		}
+	  }
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
