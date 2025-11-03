@@ -63,36 +63,43 @@ class Tweet {
         }
         //TODO: parse the activity type from the text of the tweet
 
-        //depends on call to writtenText and return human text
-        var humanText = this.writtenText;
+        //depends on call to writtenText and return human text?
+        //var humanText = this.writtenText;
+        //UPDATE: it doesn't matter if the text is written by human
+        //or automatically generated, get the activity only.
+        //rearranged order of checking activities, ski run is different from run.
+        //put "activity" at the bottom for all other activities as some tweets 
+        //may contain an actual activity and the word activity
 
-        if (humanText.includes("walk")) 
-            return "walk";
+        if (this.text.includes("yoga"))
+            return "yoga"
 
-        if (humanText.includes("run")) 
-            return "run";
-
-        if (humanText.includes("ski")) 
+        if (this.text.includes("ski")) 
             return "ski";
 
-        if (humanText.includes("bike")) 
+        if (this.text.includes("walk")) 
+            return "walk";
+
+        if (this.text.includes("run")) 
+            return "run";
+
+        if (this.text.includes("bike")) 
             return "bike";
 
-        if (humanText.includes("activity")) 
-            return "activity";
-
-        if (humanText.includes("swim")) 
+        if (this.text.includes("swim")) 
             return "swim";
 
-        if (humanText.includes("workout")) 
+        if (this.text.includes("workout")) 
             return "workout";
 
-        if (humanText.includes("meditation")) 
+        if (this.text.includes("meditation")) 
             return "meditation";
 
-        if (humanText.includes("Freestyle") || humanText.includes("freestyle"))
+        if (this.text.includes("Freestyle"))
             return "freestyle";
 
+        if (this.text.includes("activity")) 
+            return "activity";
 
         return "unknown";
     }
