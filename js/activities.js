@@ -123,7 +123,7 @@ function parseTweets(runkeeper_tweets) {
 		}
 	}
 
-	console.log(dataForDistance);
+	//console.log(dataForDistance);
 	
 	distancesTopThreeActivities = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -151,8 +151,7 @@ function parseTweets(runkeeper_tweets) {
 		
 	  }
 	}
-	//distanceVis ID in activities html file
-	vegaEmbed('#distanceVis', distancesTopThreeActivities, {actions:false});
+	
 	
 	//Aggregate distances scatterplot
 	aggregateDistances =
@@ -185,7 +184,7 @@ function parseTweets(runkeeper_tweets) {
 	  }
 
 	}
-	vegaEmbed('#distanceVisAggregated', aggregateDistances, {actions:false});
+	
 
 	//Update spans for number of activities description
 	//use topThreeActivities array of strings
@@ -199,6 +198,31 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById('shortestActivityType').innerText = "walk";
 	document.getElementById('weekdayOrWeekendLonger').innerText = "weekends";
 
+	//variable for the button and to make event listener
+	var aggregateButton = document.getElementById('aggregate');
+
+	aggregateButton.addEventListener("click", function()
+		{
+			if (document.getElementById('aggregate').innerText == "Show means")
+			{
+				//show the means
+				document.getElementById('aggregate').innerText = "Show all activities"; //update text
+				document.getElementById('distanceVis').innerHTML = ""; //make distances plot disappear
+
+				//distanceVisAggregated is an ID in activities html file
+				vegaEmbed('#distanceVisAggregated', aggregateDistances, {actions:false}); //show aggregate mean of distances
+			}
+			else
+			{
+				//show all the distances
+				document.getElementById('aggregate').innerText = "Show means"; //update text
+				document.getElementById('distanceVisAggregated').innerHTML = ""; //make distance mean aggregate plot disappear
+
+				//distanceVis ID in activities html file
+				vegaEmbed('#distanceVis', distancesTopThreeActivities, {actions:false}); //show all distances for top 3 activities
+			}
+		}
+	)
 
 }
 
