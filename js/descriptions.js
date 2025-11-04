@@ -34,11 +34,10 @@ function addEventHandlerForSearch() {
 	//TODO: Search the written tweets as text is entered into the search box, and add them to the table
 	
 	//helps remove the previous results at the bottom as search text changes
-	document.getElementById('tweetTable').innerText = "<tr></tr>";
+	document.getElementById('tweetTable').innerHTML = "<tr></tr>";
 
 	var search_text = "";
 	var search_count = 0;
-	//var results = [];
 
 	//get the search text using document id getter then .value
 	search_text = document.getElementById('textFilter').value.toLowerCase();
@@ -54,7 +53,6 @@ function addEventHandlerForSearch() {
 			{
 				document.getElementById('tweetTable').innerHTML += writtenTweets[i].getHTMLTableRow(search_count + 1);
 				search_count++;
-				//results.push(writtenTweets[i]);
 			}
 				
 		}

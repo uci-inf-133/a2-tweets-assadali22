@@ -150,6 +150,9 @@ class Tweet {
         //use replace to surround link with hyperlink
         var textWithHyperlink = this.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, "<a href = " + tweetLink + ">" + tweetLink + "</a>");
 
-        return ("<tr>" + rowNumber + "    " + this.activityType + "    " + textWithHyperlink + "</tr>");
+        //use <th scope="row"> to enhance readability
+        return ("<tr>" + '<th scope="row">' + rowNumber + '</th>' +
+            "<td>" + this.activityType + "</td>" +
+            "<td>" + textWithHyperlink + "</td></tr>");
     }
 }

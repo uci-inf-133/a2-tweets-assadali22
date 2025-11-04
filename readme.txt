@@ -15,7 +15,7 @@ Started 10-24-2025 at 9:30pm. 9:30pm-11:15pm
 10-31-2025 12:30pm-3:15pm, 9:30pm-11:15pm
 11-1-2025 6-7:45pm, 9-10:50pm
 11-2-2025 10:25pm-11:45pm
-11-3-2025 10am-12:10pm, 1pm-5pm
+11-3-2025 10am-12:10pm, 1pm-5:30pm
 
 commit message for 11-2-2025 11:50pm:
 Fixed typo in tweet class on activityType for returning meditation. 
@@ -43,6 +43,10 @@ with button. Also updated the spans.
 commit 11-3-2025 5:05pm: switching between aggreagate means plot and all distances plot
 for top three activities by checking inner button text is working!
 
+commit 11-3-2025 5:35pm: removed a commented out unused array in descriptions js
+in the event handler for search. Updated getHTMLTableRow with proper html using <th scope>
+and <td> to enhance readability of the search results.
+
 3. What online resources did you consult when completing this assignment? (list sites like StackOverflow or specific URLs for tutorials; describe queries to Generative AI or use of AI-based code completion)
 W3Schools on string manipulation in JavaScript/Typescript for includes function, replace function
 
@@ -50,6 +54,7 @@ Developer Mozilla MDN
  -getting elements by class name syntax (https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName)
  -regular expression quantifier syntax (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Quantifiers)
  -sorting an array of objects (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#examples)
+ -table header reference for scope to enhance readbility on search page: (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/th)
 
 Stack overflow: regular expression syntax for matching decimals (https://stackoverflow.com/questions/12117024/decimal-number-regular-expression-where-digit-after-decimal-is-optional)
 clickable URL links: https://stackoverflow.com/questions/2536004/making-links-clickable-in-javascript
