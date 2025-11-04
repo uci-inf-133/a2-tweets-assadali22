@@ -11,9 +11,7 @@ function parseTweets(runkeeper_tweets) {
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 	var activities = []; //data
-	//var distances = []; //parallel array to get data?
-	//distances.push(tweet_array[i].distance);
-
+	
 	//frequencies (must be all initialized to 0, thought i could put them all in 1 line and have = 0 at the end)
 	//now the graph renders
 	var walk = 0, run = 0, ski = 0, bike = 0, activity = 0; 
@@ -53,12 +51,13 @@ function parseTweets(runkeeper_tweets) {
 	
 	//sort the activity array of data in descending order by doing b.freq - a.freq
 	//can grab activities[0], activities[1], and activities[2] to make the other plots
+	//and to update the span text
 	activities.sort((a, b) => b.freq - a.freq);
 	console.log(activities);
 
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-	  "description": "A graph of the number of Tweets containing each type of activity.",
+	  "description": "A bar graph of the number of Tweets containing each type of activity.",
 	  "data": {
 	    "values": activities
 	  },
@@ -86,9 +85,123 @@ function parseTweets(runkeeper_tweets) {
 	//had to update activityType to check raw text, it does not matter
 	//if the text was written by a human or automated, get activity only
 
+
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
+
+	//use array for day of week with getDay(). 0 = sunday, 6 = saturday
+	const dayOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+	//push top three activities from the sorted array
+	var dataForDistance = []; //data for vega lite
+	var topThreeActivities = []; //strings with the top 3 activities
+
+	var dataForTopThree = []; //store the top three activities from the activities array from above
+	dataForTopThree.push(activities[0]);
+	dataForTopThree.push(activities[1]);
+	dataForTopThree.push(activities[2]);
+
+	//get the string for the actual activity from the top 3 using map function
+	topThreeActivities = dataForTopThree.map(obj => obj.activity);
+	console.log(dataForTopThree);
+	console.log(topThreeActivities);
+	
+	//parse data. {"activity" : a, "day": d, "distance" : dist}
+	for (var i = 0; i < tweet_array.length; i++)
+	{
+		if (tweet_array[i].activityType == topThreeActivities[0])
+		{
+			dataForDistance.push(new Object({"activity": topThreeActivities[0], "day": dayOfWeek[tweet_array[i].time.getDay()], "distance": math.format(tweet_array[i].distance, 2)}))
+		}
+		else if (tweet_array[i].activityType == topThreeActivities[1])
+		{
+			dataForDistance.push(new Object({"activity": topThreeActivities[1], "day": dayOfWeek[tweet_array[i].time.getDay()], "distance": math.format(tweet_array[i].distance, 2)}))
+		}
+		else if (tweet_array[i].activityType == topThreeActivities[2])
+		{
+			dataForDistance.push(new Object({"activity": topThreeActivities[2], "day": dayOfWeek[tweet_array[i].time.getDay()], "distance": math.format(tweet_array[i].distance, 2)}))
+		}
+	}
+
+	console.log(dataForDistance);
+	
+	distancesTopThreeActivities = {
+	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	  "description": "A scatterplot of the distances for each day of the week for the top 3 activities.",
+	  "data": {
+	    "values": dataForDistance
+	  },
+	  "mark": "point",
+	  "encoding":
+	  {
+		"x":
+		{
+			"field": "day",
+			"type": "nominal",
+			"sort": ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+		},
+		"y":
+		{
+			"field": "distance",
+			"type": "quantitative"
+		},
+
+		"color": {"field": "activity", "type": "nominal"},
+    	"shape": {"field": "activity", "type": "nominal"}
+		
+	  }
+	}
+	//distanceVis ID in activities html file
+	vegaEmbed('#distanceVis', distancesTopThreeActivities, {actions:false});
+	
+	//Aggregate distances scatterplot
+	aggregateDistances =
+	{
+	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	  "description": "A scatterplot of the aggregate distances for each day of the week for the top 3 activities, aggregating by mean",
+	  "data": {
+	    "values": dataForDistance
+	  },
+
+	  "mark": "point",
+	  "encoding":
+	  {
+		"x":
+		{
+			"field": "day",
+			"type": "nominal",
+			"sort": ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+		},
+		"y":
+		{
+			"field": "distance",
+			"type": "quantitative",
+			"aggregate": "mean"
+		},
+
+		"color": {"field": "activity", "type": "nominal"},
+    	"shape": {"field": "activity", "type": "nominal"}
+
+	  }
+
+	}
+	vegaEmbed('#distanceVisAggregated', aggregateDistances, {actions:false});
+
+	//Update spans for number of activities description
+	//use topThreeActivities array of strings
+	document.getElementById('numberActivities').innerText = activities.length;
+	document.getElementById('firstMost').innerText = topThreeActivities[0];
+	document.getElementById('secondMost').innerText = topThreeActivities[1];
+	document.getElementById('thirdMost').innerText = topThreeActivities[2];
+
+	//Hardcoded spans for distances
+	document.getElementById('longestActivityType').innerText = "bike";
+	document.getElementById('shortestActivityType').innerText = "walk";
+	document.getElementById('weekdayOrWeekendLonger').innerText = "weekends";
+
+
 }
+
 
 //Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', function (event) {

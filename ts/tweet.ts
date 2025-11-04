@@ -110,22 +110,31 @@ class Tweet {
         }
         //TODO: parse the distance from the text of the tweet
         //use a regular expression, match any decimal number [..].XX 2 decimal places
-        var distance = 0.00;
+        var distance; //dont initialize, causes errors..
 
         if (this.text.includes("km"))
         {
-            distance = this.text.search(/^\d+\.?\d*$/);
-            //^ is start of line, $ is end of line
-            // \d* matches 0 or more digits, \d matches 1 or more digits
-            // \.? match the dot
+            //match returns an array of matches, distance[0] has the actual number
+            distance = this.text.match(/\d+(?:\.\d+)?/);
+            // \d+ matches 1 or more digits, \. match the dot
 
-            //convert to miles
-            return distance / 1.609; // miles / 1.609
+            //convert to miles. miles / 1.609
+            if (distance)
+                return parseFloat(distance[0]) / 1.609, 2; 
+            else
+                return -1;
         }
         else if (this.text.includes("mi"))
         {
-            distance = this.text.search(/^\d+\.?\d*$/); //REPLACE WITH MATCH FUNCTION
-            return distance;
+            //this regex doesnt even work /^\d*\.?\d*$/
+
+            // regex /\d+(?:\.\d+)?/ works
+            distance = this.text.match(/\d+(?:\.\d+)?/);
+            if (distance)
+                return parseFloat(distance[0]); //distance[0] has the actual number
+            else
+                return -1;
+             
         }
 
         return 0;
